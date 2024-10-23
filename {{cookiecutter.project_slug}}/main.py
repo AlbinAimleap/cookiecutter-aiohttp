@@ -41,3 +41,8 @@ async def main() -> NoReturn:
 def run() -> None:
     """Execute the main application."""
     asyncio.run(main())
+
+
+if __name__ == "__main__":
+    run()
+    
