@@ -17,13 +17,21 @@ from typing import NoReturn
 from aio_http.core.base import AioHttpClientManager
 from aio_http.core.logger import logger
 
+from config import Config
+
 
 async def main() -> NoReturn:
     """{{cookiecutter.project_description}}"""
     url = "{{cookiecutter.site_url}}"
+    outputfile = Config.OUTPUT_FILE
     try:
         # Your main application logic here
-        pass
+        client = AioHttpClientManager()
+        client.set_headers(Config.HEADERS)
+        client.set_proxies(Config.PROXIES)
+        
+        
+        
     except Exception as e:
         logger.error(f"An error occurred: {e}")
         raise

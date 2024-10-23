@@ -6,13 +6,12 @@ from typing import Any, Dict, List, Optional
 from aio_http.core.logger import logger
 
 class AioHttpClientManager:
-    def __init__(self, async_mode: bool = True) -> None:
+    def __init__(self) -> None:
         """
         Initializes the AioHttpClientManager with async mode.
         """
-        self.async_mode = async_mode
         self.session = None
-        logger.info("AioHttpClientManager initialized. Async mode: %s", self.async_mode)
+        logger.info("AioHttpClientManager initialized")
 
     async def _init_session(self) -> None:
         """Initializes the aiohttp session."""
@@ -41,12 +40,11 @@ class AioHttpClientManager:
             logger.error("Error sending async request: %s", e)
             return None
 
-    async def send_request(self, method: str, url: str, **kwargs) -> List[str] | None:
+    async def send_multi_request(self, method: str, urls: List[str], **kwargs) -> List[str] | None:
         """
         Asynchronously loads a list of URLs and sends requests for each.
         """
         logger.info("Loading URLs for async requests: %s", urls)
-
         tasks = []
         for url in urls:
             tasks.append(self.send_request(method, url, **kwargs))
