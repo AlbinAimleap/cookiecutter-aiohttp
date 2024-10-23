@@ -16,14 +16,25 @@ class AioHttpClientManager:
     async def _init_session(self) -> None:
         """Initializes the aiohttp session."""
         if self.session is None:
-            self.session = aiohttp.ClientSession()
+            connector = aiohttp.TCPConnector(force_close=True)
+            self.session = aiohttp.ClientSession(connector=connector)
             logger.info("AioHttp session created.")
 
     async def close(self) -> None:
         """Closes the aiohttp session."""
         if self.session:
             await self.session.close()
+            await asyncio.sleep(0.250) 
             logger.info("AioHttp session closed.")
+
+    async def __aenter__(self):
+        """Async context manager enter."""
+        await self._init_session()
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        """Async context manager exit."""
+        await self.close()
 
     async def send_request(self, url: str, method: str = "GET", **kwargs) -> str | None:
         """
