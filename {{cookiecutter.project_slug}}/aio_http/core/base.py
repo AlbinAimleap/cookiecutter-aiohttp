@@ -25,7 +25,7 @@ class AioHttpClientManager:
             await self.session.close()
             logger.info("AioHttp session closed.")
 
-    async def send_request(self, method: str, url: str, **kwargs) -> str | None:
+    async def send_request(self, url: str, method: str = "GET", **kwargs) -> str | None:
         """
         Asynchronously sends an HTTP request to the specified URL using the given method.
         """
@@ -40,14 +40,14 @@ class AioHttpClientManager:
             logger.error("Error sending async request: %s", e)
             return None
 
-    async def send_multi_request(self, method: str, urls: List[str], **kwargs) -> List[str] | None:
+    async def send_multi_request(self, urls: List[str], method: str = "GET", **kwargs) -> List[str] | None:
         """
         Asynchronously loads a list of URLs and sends requests for each.
         """
         logger.info("Loading URLs for async requests: %s", urls)
         tasks = []
         for url in urls:
-            tasks.append(self.send_request(method, url, **kwargs))
+            tasks.append(self.send_request(url, method, **kwargs))
 
         # Await all tasks and gather responses
         responses = await asyncio.gather(*tasks, return_exceptions=True)
