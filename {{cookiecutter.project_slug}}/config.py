@@ -1,6 +1,6 @@
 from pathlib import Path
 
-CURRENT_DIR = Path(__file__)
+CURRENT_DIR = Path(__file__).parent
 
 output_dir = CURRENT_DIR / "output"
 if not output_dir.exists():
