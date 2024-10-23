@@ -29,9 +29,7 @@ async def main() -> NoReturn:
         client = AioHttpClientManager()
         client.set_headers(Config.HEADERS)
         client.set_proxies(Config.PROXIES)
-        
-        
-        
+        ...
     except Exception as e:
         logger.error(f"An error occurred: {e}")
         raise
